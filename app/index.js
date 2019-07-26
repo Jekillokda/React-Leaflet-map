@@ -18,9 +18,9 @@ class App extends PureComponent  {
         super(props)
         this.state = {
             markers: [],
-            response: [],
             isPaneOpen: false,
-            paneText : ""
+            paneText : "",
+            paneSubtitle : ""
         }
           this.openModal = this.openModal.bind(this)
     }
@@ -32,28 +32,17 @@ class App extends PureComponent  {
     openModal (e){
       this.setState({
         isPaneOpen: true,
-        paneText : e.latlng.lat + " " + e.latlng.lng
-      })
-    }
-
-    axiosGet(url) {
-      return axios.get(url).then(response => {
-        return response.data
+        paneText : e.latlng.lat + " " + e.latlng.lng,
+        paneSubtitle : e.text
       })
     }
     
     getMarksFromJSON(){
-      console.log("get")
-      this.axiosGet('http://localhost:3000/marks').then(res => {
+      console.log("getMarks")
+      axios.get('http://localhost:3000/marks').then(res => {
         const marks = res.data;
-        console.log("!!!!!!",marks);
         this.setState({ markers: marks});
       });
-      this.setState({
-        markers : strr
-      })
-      console.log("state.markers", this.state.markers)
-      console.log("len", strr.length)
     }
     
   render() {
@@ -68,7 +57,7 @@ class App extends PureComponent  {
                 overlayClassName='some-custom-overlay-class'
                 isOpen={ this.state.isPaneOpen }
                 title={this.state.paneText}
-                subtitle='Optional subtitle.'
+                subtitle={this.state.paneSubtitle}
                 width='600px' 
                 from='right'
                 onRequestClose={ () => {

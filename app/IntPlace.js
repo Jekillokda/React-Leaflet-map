@@ -23,7 +23,7 @@ onMarkerClicked(e){
     return (
     <div>
         <Marker 
-        position={this.state.coord}
+        position={[this.props.lat,this.props.lng]}
         onClick = {e => this.onMarkerClicked(e).bind(this)}>
         <Tooltip >{this.props.text}</Tooltip>
         </Marker>

@@ -12,8 +12,6 @@ constructor(props) {
         zoom: 12
     }
     this.onMarkerClicked = this.onMarkerClicked.bind(this);
-    this.setState({
-    markers : this.props.lists})
 }
 onMarkerClicked(e){
   console.log("onMarkerClickedinMap",e)
@@ -27,11 +25,9 @@ onMarkerClicked(e){
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {this.state.markers.map(function(item,e){
-                return (
-                    <IntPlace id = {item.id} lat = {item.lat} lng = {item.lng} text = {item.text} openModal = { e =>this.onMarkerClicked(e,item)}></IntPlace>
-                )
-        },this)}
+        {this.props.list.map((item,e) => (
+                    <IntPlace id={item.id} lat = {item.lat} lng = {item.lng} text = {item.text} openModal={e => this.onMarkerClicked(e,item)}></IntPlace>
+                ),this)}
       </Map>
     </div>
     )
