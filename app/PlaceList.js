@@ -5,8 +5,8 @@ function PlaceList (props) {
     return (
         <div>
             {
-                props.list.map(function(d, idx){
-                    return (<li key={idx}><Place text = {d.text}></Place></li>)
+                props.list.map(function(item, idx){
+                    return (<li key={idx}><Place text = {item.text}></Place></li>)
                 })
             }
         </div>

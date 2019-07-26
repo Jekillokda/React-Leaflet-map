@@ -1,27 +1,57 @@
 import React, { PureComponent  } from "react";
 import ReactDOM from "react-dom";
-import MapComponent from "./map";
-import PlaceList from "./PlaceList";
-import Flexbox from 'flexbox-react';
-
+import MapComponent from "./MapComponent";
+import Modal from 'react-modal';
+import SlidingPane from 'react-sliding-pane';
+import PlaceDetails from './PlaceDetails';
 import "./styles.css";
+import 'react-sliding-pane/dist/react-sliding-pane.css';
 
 class App extends PureComponent  {
 
+  componentDidMount() {
+    Modal.setAppElement(this.el);
+  }
+  
+    constructor(props) {
+        super(props)
+        this.state = {
+            markers: [[53.905216, 27.517687]],
+            isPaneOpen: false,
+        }
+    }
+    addMarker (e) {
+        const {markers} = this.state
+        markers.push(e.latlng)
+        this.setState({markers})
+      }
+    openModal (){
+      const {isPaneOpen} = this.state
+      isPaneOpen = true
+      this.setState({isPaneOpen})
+    }
+    
   render() {
-    const list = [
-        {lat : 53.905216, lon : 27.517687, text : "aaa"},
-        {lat : 53.932153, lon : 27.582082, text : "bbb"},
-        {lat : 53.857516, lon : 27.550375, text : "ccc"},
-    ]
     return (
       <div>
-        <Flexbox flexDirection="column" minHeight="100vh">
-            <Flexbox flexGrow={1}>
-                <MapComponent list = {list}></MapComponent>
-                <PlaceList list = {list}></PlaceList>
-            </Flexbox>
-        </Flexbox>
+      <button onClick={ () => this.setState({ isPaneOpen: true }) }>
+                    Click me to open pane
+                </button>
+      <MapComponent list = {this.state.markers} addMarker = {this.addMarker} openModal = {this.openModal}></MapComponent>
+      <SlidingPane
+                className='some-custom-class'
+                overlayClassName='some-custom-overlay-class'
+                isOpen={ this.state.isPaneOpen }
+                title='Hey, it is optional pane title.'
+                subtitle='Optional subtitle.'
+                width='600px'
+                from='right'
+                onRequestClose={ () => {
+                    this.setState({ isPaneOpen: false });
+                } }>
+                <PlaceDetails text = {'112233'}></PlaceDetails>
+                <br />
+            </SlidingPane>
       </div>
     )
   }

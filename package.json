@@ -1,8 +1,9 @@
 {
   "name": "react-leaflet-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "training app",
   "main": "index.js",
+  "repository": "https://github.com/Jekillokda/React-Leaflet-map",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "create": "webpack",
@@ -16,8 +17,8 @@
     "leaflet": "^1.5.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-grid-layout": "^0.16.6",
-    "react-leaflet": "^2.4.0"
+    "react-leaflet": "^2.4.0",
+    "react-sliding-pane": "^3.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",

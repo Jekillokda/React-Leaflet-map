@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
+import { Map, TileLayer } from 'react-leaflet'
 import IntPlace from './IntPlace';
 
 export default class MapComponent extends Component{
@@ -12,34 +12,18 @@ constructor(props) {
         zoom: 12
     }
 }
-
-addMarker (e) {
-    const {markers} = this.state
-    markers.push(e.latlng)
-    this.setState({markers})
-  }
-
-onClickCircle () {
-    this.setState(function(state) {
-        return {
-           clicked: state.clicked + 1
-        }
-    });
-  }
-
   render() {
     const startPosition = [this.state.lat, this.state.lng]
     return (
     <div >
-      <Map center = {startPosition} zoom = {this.state.zoom} onClick={this.addMarker.bind(this)} >
+      <Map center = {startPosition} zoom = {this.state.zoom} onClick={this.props.addMarker.bind(this)}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {this.state.markers.map(function(item){
+        {this.state.markers.map(function(item,props){
                 return (
-                    <IntPlace position = {item} text = {"112233"} text2 = {"AAaa"}></IntPlace>
+                    <IntPlace position = {item} tooltipText = {"112233"} popupText = {"AAaa"} openModal = {props.openModal}></IntPlace>
                 )
-            
         })}
       </Map>
     </div>
