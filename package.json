@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.0",
     "flexbox-react": "^4.4.0",
     "leaflet": "^1.5.1",
     "react": "^16.8.6",

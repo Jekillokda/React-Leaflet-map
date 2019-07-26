@@ -4,6 +4,7 @@ import MapComponent from "./MapComponent";
 import Modal from 'react-modal';
 import SlidingPane from 'react-sliding-pane';
 import PlaceDetails from './PlaceDetails';
+import axios from 'axios'
 import "./styles.css";
 import 'react-sliding-pane/dist/react-sliding-pane.css';
 
@@ -16,8 +17,10 @@ class App extends PureComponent  {
     constructor(props) {
         super(props)
         this.state = {
-            markers: [[53.905216, 27.517687]],
+            markers: [],
+            response: [],
             isPaneOpen: false,
+            paneText : ""
         }
           this.openModal = this.openModal.bind(this)
     }
@@ -26,24 +29,45 @@ class App extends PureComponent  {
         markers.push(e.latlng)
         this.setState({markers})
       }
-    openModal (){
+    openModal (e){
       this.setState({
-        isPaneOpen: true
+        isPaneOpen: true,
+        paneText : e.latlng.lat + " " + e.latlng.lng
       })
+    }
+
+    axiosGet(url) {
+      return axios.get(url).then(response => {
+        return response.data
+      })
+    }
+    
+    getMarksFromJSON(){
+      console.log("get")
+      this.axiosGet('http://localhost:3000/marks').then(res => {
+        const marks = res.data;
+        console.log("!!!!!!",marks);
+        this.setState({ markers: marks});
+      });
+      this.setState({
+        markers : strr
+      })
+      console.log("state.markers", this.state.markers)
+      console.log("len", strr.length)
     }
     
   render() {
     return (
       <div>
-      <button onClick={ () => this.setState({ isPaneOpen: true }) }>
-                    Click me to open pane
-                </button>
+      <button onClick={this.getMarksFromJSON.bind(this) }>
+        get
+      </button>
       <MapComponent list = {this.state.markers} addMarker = {this.addMarker} openModal = {this.openModal}></MapComponent>
       <SlidingPane
                 className='some-custom-class'
                 overlayClassName='some-custom-overlay-class'
                 isOpen={ this.state.isPaneOpen }
-                title='Hey, it is optional pane title.'
+                title={this.state.paneText}
                 subtitle='Optional subtitle.'
                 width='600px' 
                 from='right'

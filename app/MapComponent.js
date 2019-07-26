@@ -6,12 +6,14 @@ export default class MapComponent extends Component{
 constructor(props) {
     super(props)
     this.state = {
-        markers: [[53.905216, 27.517687]], 
+        markers: [], 
         lat: 53.8882647,
         lng: 27.5483184,
         zoom: 12
     }
     this.onMarkerClicked = this.onMarkerClicked.bind(this);
+    this.setState({
+    markers : this.props.lists})
 }
 onMarkerClicked(e){
   console.log("onMarkerClickedinMap",e)
@@ -27,7 +29,7 @@ onMarkerClicked(e){
         />
         {this.state.markers.map(function(item,e){
                 return (
-                    <IntPlace position = {item} tooltipText = {"112233"} popupText = {"AAaa"} openModal = { e =>this.onMarkerClicked(e,item)}></IntPlace>
+                    <IntPlace id = {item.id} lat = {item.lat} lng = {item.lng} text = {item.text} openModal = { e =>this.onMarkerClicked(e,item)}></IntPlace>
                 )
         },this)}
       </Map>
