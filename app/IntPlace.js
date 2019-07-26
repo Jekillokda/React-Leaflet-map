@@ -7,12 +7,17 @@ constructor(props) {
     this.state = { 
     }
 }
+onMarkerClicked(e){
+  console.log("onMarkerClicked",e)
+  this.props.openModal(e)
+}
   render() {
     return (
     <div>
         <Marker 
-        position={this.props.position}>
-        <Tooltip onClick = {this.props.openModal}>{this.props.tooltipText}</Tooltip>
+        position={this.props.position}
+        onClick = {e => this.onMarkerClicked(e).bind(this)}>
+        <Tooltip >{this.props.tooltipText}</Tooltip>
         </Marker>
       </div>
     )

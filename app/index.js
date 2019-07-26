@@ -19,6 +19,7 @@ class App extends PureComponent  {
             markers: [[53.905216, 27.517687]],
             isPaneOpen: false,
         }
+          this.openModal = this.openModal.bind(this)
     }
     addMarker (e) {
         const {markers} = this.state
@@ -26,9 +27,9 @@ class App extends PureComponent  {
         this.setState({markers})
       }
     openModal (){
-      const {isPaneOpen} = this.state
-      isPaneOpen = true
-      this.setState({isPaneOpen})
+      this.setState({
+        isPaneOpen: true
+      })
     }
     
   render() {
@@ -44,7 +45,7 @@ class App extends PureComponent  {
                 isOpen={ this.state.isPaneOpen }
                 title='Hey, it is optional pane title.'
                 subtitle='Optional subtitle.'
-                width='600px'
+                width='600px' 
                 from='right'
                 onRequestClose={ () => {
                     this.setState({ isPaneOpen: false });
