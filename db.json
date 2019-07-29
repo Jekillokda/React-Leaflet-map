@@ -5,7 +5,7 @@
     { "id": 2, "lat": 53.91788761358876, "lng" : 27.63748168945313, "text": "222" }
   ],
   "comments": [
-      {"markid" : 1, "comm" : "notbad", "stars" : 2.5},
+      {"markid" : 1, "comm" : "notbad", "stars" : 3},
       {"markid" : 1, "comm" : "loool", "stars" : 1},
       {"markid" : 2, "comm" : "great", "stars" : 5}
   ]

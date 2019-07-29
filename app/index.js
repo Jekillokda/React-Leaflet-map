@@ -75,7 +75,7 @@ class App extends PureComponent  {
                 width='600px' 
                 from='right'
                 onRequestClose={ 
-                  () => {this.setState({ isPaneOpen: false });
+                  () => {this.setState({ isPaneOpen: false })
                 }}>
                 <PlaceDetails comms = {this.state.comments} markid = {this.state.paneMarkId}></PlaceDetails>
                 <br />
