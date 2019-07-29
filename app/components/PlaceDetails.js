@@ -1,23 +1,58 @@
 import React, { Component } from 'react'
 import Rater from 'react-rater'
 import 'react-rater/lib/react-rater.css'
+import Comment from './Comment'
 export default class MapComponent extends Component{
+    constructor(props) {
+        super(props)
+        this.state = {
+            newcomments : [],
+            tmpComm: "",
+            tmpStars: 0,
+            tmpID : 0
+        }
+    }
+    onCommChange = (e) =>{
+        this.setState({tmpComm : e.target.value})
+    }
+    onRateChange = (e) =>{
+        this.setState({tmpStars : e.rating})
+    }
+    AddComment = (e)=>{
+    e.preventDefault(); 
+    console.log("addComm",this.props.markid, this.state.tmpComm, this.state.tmpStars)
+    var t = this.state.newcomments;
+    t.push({"markid" : this.props.markid, "comm" : this.state.tmpComm, "stars" : this.state.tmpStars})
+    this.setState({
+        newcomments : t
+    })
+    console.log("newcomms", this.state.newcomments)
+    }
     render() {
         const arr = this.props.comms.filter(comm => comm.markid === this.props.markid);
         const avgMark = arr.length>0? this.getAvg(arr) : 0;
-        
         return (
-        <div >
+        <div>
         <label>Average Mark: </label> 
         <Rater total={5} rating={avgMark} interactive={false} />
         <br />
         {arr.length>0?arr.map((item) => (
-            <div>
-            <label>{item.comm}</label>
-            <Rater total={5} rating={item.stars} interactive={false} />
-            <br></br>
-            </div>
+            <Comment comm = {item.comm} stars = {item.stars}></Comment>
         ),this) : <label>no comments</label>}
+        <form>
+              <label>
+                Комментарий:
+                <input  type="text" name="name" value = {this.state.tmpComm} onChange = {e =>this.onCommChange(e)} />
+              </label>
+              <label>
+                Оценка:
+                <Rater total={5} rating={this.state.tmpStars} onRate = {e =>this.onRateChange(e)} />
+              </label>
+              <input type="submit" value="Сохранить" onClick = {this.AddComment}/>
+            </form> 
+        {this.state.newcomments.length>0?this.state.newcomments.map((item) => (
+            <Comment comm = {item.comm} stars = {item.stars}></Comment>
+        ),this) : <label></label>}
         </div>
         )
     }

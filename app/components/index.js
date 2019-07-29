@@ -52,7 +52,6 @@ class App extends PureComponent  {
     }
 
     getLatLng = (e) =>{
-      console.log("getLatLng", e.latlng)
       this.setState({ 
         tmpLat : e.latlng.lat,
         tmpLng : e.latlng.lng});
@@ -84,14 +83,12 @@ class App extends PureComponent  {
           tmpLat : 0,
           tmpLng : 0,
           tmpName : ""})
-          console.log("STATE", this.state)
       }
 
     openModal = (e, item) =>  {
-      console.log("openModal", e, item)
       this.setState({
         isPaneOpen: true,
-        paneText : item.text, 
+        paneText : item.text +" " + item.id, 
         paneSubtitle : e.latlng.lat + " " + e.latlng.lng,
         paneMarkId : item.id
       })
