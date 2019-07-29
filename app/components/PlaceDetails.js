@@ -10,6 +10,7 @@ export default class MapComponent extends Component{
         <div >
         <label>Average Mark: </label> 
         <Rater total={5} rating={avgMark} interactive={false} />
+        <br />
         {arr.length>0?arr.map((item) => (
             <div>
             <label>{item.comm}</label>

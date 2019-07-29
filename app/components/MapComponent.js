@@ -20,7 +20,7 @@ onMarkerClicked(e, item){
     const startPosition = [this.state.lat, this.state.lng]
     return (
     <div >
-      <Map center = {startPosition} zoom={this.state.zoom} onClick={ e =>this.props.addMarker}>
+      <Map center = {startPosition} zoom={this.state.zoom} onClick={ e => this.props.getLatLng(e)}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
