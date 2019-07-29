@@ -6,7 +6,6 @@ constructor(props) {
     super(props)
 }
 onMarkerClicked(e){
-  console.log("onMarkerClicked",e)
   this.props.openModal(e)
 }
   render() {

@@ -14,14 +14,13 @@ constructor(props) {
     this.onMarkerClicked = this.onMarkerClicked.bind(this);
 }
 onMarkerClicked(e, item){
-  console.log("onMarkerClickedinMap",e, item.item.id)
-  this.props.openModal(e,item.item.id)
+  this.props.openModal(e,item.item)
 }
   render() {
     const startPosition = [this.state.lat, this.state.lng]
     return (
     <div >
-      <Map center = {startPosition} zoom={this.state.zoom} onClick={this.props.addMarker.bind(this)}>
+      <Map center = {startPosition} zoom={this.state.zoom} onClick={ e =>this.props.addMarker}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />

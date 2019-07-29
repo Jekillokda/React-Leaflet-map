@@ -5,10 +5,10 @@ import Modal from 'react-modal';
 import SlidingPane from 'react-sliding-pane';
 import PlaceDetails from './PlaceDetails';
 import axios from 'axios'
-import "./styles.css";
+import "../css/styles.css";
 import 'react-sliding-pane/dist/react-sliding-pane.css';
 
-import {MARKS_LOAD_URL, COMMENTS_LOAD_URL} from './constants'
+import {MARKS_LOAD_URL, COMMENTS_LOAD_URL} from '../constants'
 class App extends PureComponent  {
 
   componentDidMount() {
@@ -52,20 +52,20 @@ class App extends PureComponent  {
         this.setState({markers})
       }
 
-    openModal = (e, id) =>  {
-      console.log("openModal", e, id)
+    openModal = (e, item) =>  {
+      console.log("openModal", e, item)
       this.setState({
         isPaneOpen: true,
-        paneText : e.latlng.lat + " " + e.latlng.lng,
-        paneMarkId : id
+        paneText : item.text, 
+        paneSubtitle : e.latlng.lat + " " + e.latlng.lng,
+        paneMarkId : item.id
       })
     }
     
   render() {
     return (
-      
       <div>
-      <MapComponent list = {this.state.markers} addMarker = {this.addMarker} openModal = {this.openModal}></MapComponent>
+      <MapComponent list={this.state.markers} addMarker={this.addMarker} openModal={this.openModal}></MapComponent>
       <SlidingPane
                 className='some-custom-class'
                 overlayClassName='some-custom-overlay-class'
@@ -77,7 +77,7 @@ class App extends PureComponent  {
                 onRequestClose={ 
                   () => {this.setState({ isPaneOpen: false })
                 }}>
-                <PlaceDetails comms = {this.state.comments} markid = {this.state.paneMarkId}></PlaceDetails>
+                <PlaceDetails comms={this.state.comments} markid={this.state.paneMarkId}></PlaceDetails>
                 <br />
             </SlidingPane>
       </div>
