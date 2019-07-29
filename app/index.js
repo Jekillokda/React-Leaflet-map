@@ -13,17 +13,8 @@ class App extends PureComponent  {
 
   componentDidMount() {
     Modal.setAppElement(this.el);
-    console.log("getMarks", MARKS_LOAD_URL)
-      axios.get(MARKS_LOAD_URL).then(res => {
-        const marks = res.data;
-        this.setState({ markers: marks});
-      });
-    console.log("getComments", COMMENTS_LOAD_URL)
-      axios.get(COMMENTS_LOAD_URL).then(res => {
-        const comms = res.data;
-        this.setState({ comments: comms});
-      });
-      console.log("comms", this.state.comments)
+    this.loadMarks(MARKS_LOAD_URL);
+    this.loadComments(COMMENTS_LOAD_URL);
   }
   
     constructor(props) {
@@ -34,8 +25,25 @@ class App extends PureComponent  {
             isPaneOpen: false,
             paneText : "",
             paneSubtitle : "",
-            paneMarkId : []
+            paneMarkId : 0
         }
+    }
+
+    loadMarks(url){
+      Modal.setAppElement(this.el);
+      console.log("getMarks from", url)
+        axios.get(url).then(res => {
+          const marks = res.data;
+          this.setState({ markers: marks});
+        });
+    }
+
+    loadComments(url){
+      console.log("getComments from", url)
+      axios.get(url).then(res => {
+        const comms = res.data;
+        this.setState({ comments: comms});
+      });
     }
 
     addMarker (e) {
@@ -66,9 +74,9 @@ class App extends PureComponent  {
                 subtitle={this.state.paneSubtitle}
                 width='600px' 
                 from='right'
-                onRequestClose={ () => {
-                    this.setState({ isPaneOpen: false });
-                } }>
+                onRequestClose={ 
+                  () => {this.setState({ isPaneOpen: false });
+                }}>
                 <PlaceDetails comms = {this.state.comments} markid = {this.state.paneMarkId}></PlaceDetails>
                 <br />
             </SlidingPane>

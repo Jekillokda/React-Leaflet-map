@@ -5,7 +5,10 @@ export default class MapComponent extends Component{
         return (
         <div >
         {this.props.comms?this.props.comms.map((item) => (
-            <label>{item.markid === this.props.markid? item.comm+" " : ""}</label>
+            <div>
+            <label>{item.markid === this.props.markid? item.comm : ""}</label>
+            <br></br>
+            </div>
         ),this) : <label></label>}
         </div>
         )
