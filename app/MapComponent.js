@@ -13,21 +13,21 @@ constructor(props) {
     }
     this.onMarkerClicked = this.onMarkerClicked.bind(this);
 }
-onMarkerClicked(e){
-  console.log("onMarkerClickedinMap",e)
-  this.props.openModal(e)
+onMarkerClicked(e, item){
+  console.log("onMarkerClickedinMap",e, item.item.id)
+  this.props.openModal(e,item.item.id)
 }
   render() {
     const startPosition = [this.state.lat, this.state.lng]
     return (
     <div >
-      <Map center = {startPosition} zoom = {this.state.zoom} onClick={this.props.addMarker.bind(this)}>
+      <Map center = {startPosition} zoom={this.state.zoom} onClick={this.props.addMarker.bind(this)}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {this.props.list.map((item,e) => (
-                    <IntPlace id={item.id} lat = {item.lat} lng = {item.lng} text = {item.text} openModal={e => this.onMarkerClicked(e,item)}></IntPlace>
-                ),this)}
+        {this.props.list?this.props.list.map((item) => (
+                    <IntPlace key={item.idx} id={item.id} lat={item.lat} lng={item.lng} text={item.text} openModal={(e) => this.onMarkerClicked(e, {item})}></IntPlace>
+                ),this) : null}
       </Map>
     </div>
     )

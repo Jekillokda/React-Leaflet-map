@@ -8,49 +8,55 @@ import axios from 'axios'
 import "./styles.css";
 import 'react-sliding-pane/dist/react-sliding-pane.css';
 
+import {MARKS_LOAD_URL, COMMENTS_LOAD_URL} from './constants'
 class App extends PureComponent  {
 
   componentDidMount() {
     Modal.setAppElement(this.el);
+    console.log("getMarks", MARKS_LOAD_URL)
+      axios.get(MARKS_LOAD_URL).then(res => {
+        const marks = res.data;
+        this.setState({ markers: marks});
+      });
+    console.log("getComments", COMMENTS_LOAD_URL)
+      axios.get(COMMENTS_LOAD_URL).then(res => {
+        const comms = res.data;
+        this.setState({ comments: comms});
+      });
+      console.log("comms", this.state.comments)
   }
   
     constructor(props) {
         super(props)
         this.state = {
             markers: [],
+            comments : [],
             isPaneOpen: false,
             paneText : "",
-            paneSubtitle : ""
+            paneSubtitle : "",
+            paneMarkId : []
         }
-          this.openModal = this.openModal.bind(this)
     }
+
     addMarker (e) {
         const {markers} = this.state
         markers.push(e.latlng)
         this.setState({markers})
       }
-    openModal (e){
+
+    openModal = (e, id) =>  {
+      console.log("openModal", e, id)
       this.setState({
         isPaneOpen: true,
         paneText : e.latlng.lat + " " + e.latlng.lng,
-        paneSubtitle : e.text
+        paneMarkId : id
       })
-    }
-    
-    getMarksFromJSON(){
-      console.log("getMarks")
-      axios.get('http://localhost:3000/marks').then(res => {
-        const marks = res.data;
-        this.setState({ markers: marks});
-      });
     }
     
   render() {
     return (
+      
       <div>
-      <button onClick={this.getMarksFromJSON.bind(this) }>
-        get
-      </button>
       <MapComponent list = {this.state.markers} addMarker = {this.addMarker} openModal = {this.openModal}></MapComponent>
       <SlidingPane
                 className='some-custom-class'
@@ -63,7 +69,7 @@ class App extends PureComponent  {
                 onRequestClose={ () => {
                     this.setState({ isPaneOpen: false });
                 } }>
-                <PlaceDetails text = {'112233'}></PlaceDetails>
+                <PlaceDetails comms = {this.state.comments} markid = {this.state.paneMarkId}></PlaceDetails>
                 <br />
             </SlidingPane>
       </div>

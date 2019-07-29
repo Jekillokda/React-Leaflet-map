@@ -1,19 +1,9 @@
 import React, { PureComponent  } from 'react'
-import { Marker, Popup, Tooltip } from 'react-leaflet'
+import { Marker, Tooltip } from 'react-leaflet'
 
 export default class IntPlace extends PureComponent {
 constructor(props) {
     super(props)
-    this.state = {
-      id : 0,
-      coord : [0,0],
-      text : "qqq" 
-    }
-    this.setState({
-      id : this.props.id,
-      coord : [this.props.lat, this.props.lng],
-      text : this.props.text
-    })
 }
 onMarkerClicked(e){
   console.log("onMarkerClicked",e)
@@ -24,7 +14,7 @@ onMarkerClicked(e){
     <div>
         <Marker 
         position={[this.props.lat,this.props.lng]}
-        onClick = {e => this.onMarkerClicked(e).bind(this)}>
+        onClick = {e => this.onMarkerClicked(e,this.props.id)}>
         <Tooltip >{this.props.text}</Tooltip>
         </Marker>
       </div>
