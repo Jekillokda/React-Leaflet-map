@@ -94,6 +94,13 @@ class App extends PureComponent  {
         paneMarkId : item.id
       })
     }
+    addComm = (e, item) =>  {
+      console.log("ITMEMEMEMEMEM", item)
+      var comms = this.state.comments.concat(item)
+      this.setState({
+        comments : comms
+      })
+    }
     
   render() {    console.log("comms", this.state.comments)
     return (
@@ -125,7 +132,7 @@ class App extends PureComponent  {
           onRequestClose={ 
             () => {this.setState({ isPaneOpen: false })
           }}>
-            <PlaceDetails comms={this.state.comments} markid={this.state.paneMarkId}></PlaceDetails>
+            <PlaceDetails comms={this.state.comments} markid={this.state.paneMarkId} addComm={this.addComm}></PlaceDetails>
             <br />
         </SlidingPane> 
       </div>

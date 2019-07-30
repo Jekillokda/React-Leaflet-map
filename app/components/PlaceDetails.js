@@ -22,7 +22,9 @@ export default class MapComponent extends Component{
     e.preventDefault(); 
     console.log('addComm',this.props.markid, this.state.tmpComm, this.state.tmpStars)
     var t = this.state.newcomments;
-    t.push({'markid' : this.props.markid, 'comm' : this.state.tmpComm, 'stars' : this.state.tmpStars})
+    const ncomm = {'markid' : this.props.markid, 'comm' : this.state.tmpComm, 'stars' : this.state.tmpStars}
+    this.props.addComm(e,ncomm)
+    t.push(ncomm)
     this.setState({
         newcomments : t,
         tmpComm : '',
@@ -32,6 +34,7 @@ export default class MapComponent extends Component{
     }
     render() {
         const arr = this.props.comms.filter(comm => comm.markid === this.props.markid);
+        console.log("arr",arr)
         const avgMark = arr.length>0? this.getAvg(arr) : 0;
         return (
         <div>
@@ -52,9 +55,6 @@ export default class MapComponent extends Component{
               </label>
               <input type='submit' value='Сохранить' onClick = {this.AddComment}/>
             </form> 
-        {this.state.newcomments.length>0?this.state.newcomments.map((item) => (
-            <Comment comm = {item.comm} stars = {item.stars}></Comment>
-        ),this) : <label></label>}
         </div>
         )
     }
