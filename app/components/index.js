@@ -30,7 +30,8 @@ class App extends PureComponent  {
             paneMarkId : 0,
             tmpName: "",
             tmpLat : 0,
-            tmpLng : 0
+            tmpLng : 0,
+            nextId : 0
         }
     }
 
@@ -39,7 +40,8 @@ class App extends PureComponent  {
       console.log("getMarks from", url)
         axios.get(url).then(res => {
           const marks = res.data;
-          this.setState({ markers: marks});
+          this.setState({ markers: marks,
+          nextId :marks.length});
         });
     }
 
@@ -68,21 +70,19 @@ class App extends PureComponent  {
       onMarkLngChange = (e) =>{
         this.setState({tmpLng : e.target.value})
       }
-      getLastId(arr){
-          return 3
-      }
 
       AddMarker =(e) =>{
         e.preventDefault(); 
         const {markers} = this.state
-        const newEl = {"id" : this.getLastId(markers),"lat" : this.state.tmpLat, "lng" : this.state.tmpLng, "text" : this.state.tmpName}
+        const newEl = {"id" : this.state.nextId,"lat" : this.state.tmpLat, "lng" : this.state.tmpLng, "text" : this.state.tmpName}
         markers.push(newEl);
 
         this.setState({
           markers : markers,
           tmpLat : 0,
           tmpLng : 0,
-          tmpName : ""})
+          tmpName : "",
+          nextId : this.state.nextId +1})
       }
 
     openModal = (e, item) =>  {

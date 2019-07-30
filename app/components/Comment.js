@@ -6,7 +6,6 @@ constructor(props) {
     super(props)
 }
   render() {
-    console.log("comment", this.props.comm,this.props.stars)
     return (
     <div>
         <label>{this.props.comm}</label>
