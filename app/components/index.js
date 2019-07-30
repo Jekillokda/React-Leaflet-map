@@ -14,7 +14,7 @@ import {MARKS_LOAD_URL, COMMENTS_LOAD_URL} from '../constants'
 class App extends PureComponent  {
 
   componentDidMount() {
-    Modal.setAppElement(this.el);
+    Modal.setAppElement('body');
     this.loadMarks(MARKS_LOAD_URL);
     this.loadComments(COMMENTS_LOAD_URL);
   }

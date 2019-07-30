@@ -29,7 +29,8 @@ export default class MapComponent extends Component{
     console.log("newcomms", this.state.newcomments)
     }
     render() {
-        const arr = this.props.comms.filter(comm => comm.markid === this.props.markid);
+        const arr = this.props.comms.filter(comm => comm.markid === this.props.markid).push(this.state.newcomments);
+        
         const avgMark = arr.length>0? this.getAvg(arr) : 0;
         return (
         <div>

@@ -25,7 +25,7 @@ onMarkerClicked(e, item){
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {this.props.list?this.props.list.map((item) => (
-                    <IntPlace key={item.idx} id={item.id} lat={item.lat} lng={item.lng} text={item.text} openModal={(e) => this.onMarkerClicked(e, {item})}></IntPlace>
+                    <IntPlace key={item.id} id={item.id} lat={item.lat} lng={item.lng} text={item.text} openModal={(e) => this.onMarkerClicked(e, {item})}></IntPlace>
                 ),this) : null}
       </Map>
     </div>
