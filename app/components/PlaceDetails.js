@@ -24,7 +24,9 @@ export default class MapComponent extends Component{
     var t = this.state.newcomments;
     t.push({"markid" : this.props.markid, "comm" : this.state.tmpComm, "stars" : this.state.tmpStars})
     this.setState({
-        newcomments : t
+        newcomments : t,
+        tmpComm : "",
+        tmpStars : 0
     })
     console.log("newcomms", this.state.newcomments)
     }

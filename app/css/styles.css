@@ -2,7 +2,7 @@ body {
     padding-bottom: 30px;
   }
   .leaflet-container {
-    height: 92vh;
+    height: 80vh;
     width: 50vw;
     z-index:0;
   }
