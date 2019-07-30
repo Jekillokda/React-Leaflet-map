@@ -6,18 +6,19 @@ import SlidingPane from 'react-sliding-pane';
 import PlaceDetails from './PlaceDetails';
 import axios from 'axios'
 import Flexbox from 'flexbox-react';
+import {axiosGet, axiosPost} from '../Api/axios'
 
 import '../css/styles.css';
 import 'react-sliding-pane/dist/react-sliding-pane.css';
 
-import {MARKS_LOAD_URL, COMMENTS_LOAD_URL} from '../constants'
+import {MARKERS_URL, COMMENTS_URL} from '../constants'
 
 class App extends PureComponent  {
 
   componentDidMount() {
     Modal.setAppElement('body');
-    this.loadMarkers(MARKS_LOAD_URL);
-    this.loadComments(COMMENTS_LOAD_URL);
+    this.loadMarkers(MARKERS_URL);
+    this.loadComments(COMMENTS_URL);
     console.log("comms", this.state.comments)
   }
     constructor(props) {
@@ -39,19 +40,33 @@ class App extends PureComponent  {
     loadMarkers(url){
       Modal.setAppElement(this.el);
       console.log('getMarks from', url)
-        axios.get(url).then(res => {
-          const marks = res.data;
-          this.setState({ markers: marks,
-          nextId :marks.length});
+        axiosGet(url).then(res => {
+          this.setState({ 
+            markers: res.data,
+            nextId :res.data.length});
         });
     }
 
     loadComments(url){
       console.log('getComments from', url)
-      axios.get(url).then(res => {
-        const comms = res.data;
-        this.setState({ comments: comms});
+      axiosGet(url).then(res => {
+        this.setState({ 
+          comments: res.data
+        });
       });
+
+    }
+
+    SaveMarkers(url, marker){
+      axios.post(url, marker).then(res => {
+        console.log(res);
+      })
+    }
+
+    SaveComments(url, comm){
+      axios.post(url, comm).then(res => {
+        console.log(res);
+      })
     }
 
     getLatLng = (e) =>{
@@ -77,13 +92,14 @@ class App extends PureComponent  {
         const {markers} = this.state
         const newEl = {'id' : this.state.nextId,'lat' : this.state.tmpLat, 'lng' : this.state.tmpLng, 'text' : this.state.tmpName}
         markers.push(newEl);
-
+        this.SaveMarkers(MARKERS_URL, newEl)
         this.setState({
           markers : markers,
           tmpLat : 0,
           tmpLng : 0,
           tmpName : '',
           nextId : this.state.nextId +1})
+        
       }
 
     openModal = (e, item) =>  {
@@ -95,14 +111,16 @@ class App extends PureComponent  {
       })
     }
     addComm = (e, item) =>  {
-      console.log("ITMEMEMEMEMEM", item)
-      var comms = this.state.comments.concat(item)
       this.setState({
-        comments : comms
+        comments : this.state.comments.concat(item)
       })
+      console.log("ITEM", item)
+      const newComm = {"markid": item.markid,"comm":item.comm,"stars": item.stars}
+      console.log("NEWITEM", newComm)
+      this.SaveComments(COMMENTS_URL, item);
     }
     
-  render() {    console.log("comms", this.state.comments)
+  render() { console.log("comms", this.state.comments)
     return (
       <div>
         <Flexbox flexDirection='column' minHeight='100vh'>

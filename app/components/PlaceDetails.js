@@ -20,7 +20,6 @@ export default class MapComponent extends Component{
     }
     AddComment = (e)=>{
     e.preventDefault(); 
-    console.log('addComm',this.props.markid, this.state.tmpComm, this.state.tmpStars)
     var t = this.state.newcomments;
     const ncomm = {'markid' : this.props.markid, 'comm' : this.state.tmpComm, 'stars' : this.state.tmpStars}
     this.props.addComm(e,ncomm)
@@ -30,11 +29,9 @@ export default class MapComponent extends Component{
         tmpComm : '',
         tmpStars : 0
     })
-    console.log('newcomms', this.state.newcomments)
     }
     render() {
         const arr = this.props.comms.filter(comm => comm.markid === this.props.markid);
-        console.log("arr",arr)
         const avgMark = arr.length>0? this.getAvg(arr) : 0;
         return (
         <div>
