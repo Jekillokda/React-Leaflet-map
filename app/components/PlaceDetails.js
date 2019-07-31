@@ -10,7 +10,6 @@ export default class PlaceDetails extends Component {
       newcomments: [],
       tmpComm: '',
       tmpStars: 0,
-      tmpID: 0,
     };
   }
   onCommChange(e) {
@@ -23,7 +22,7 @@ export default class PlaceDetails extends Component {
     e.preventDefault();
     const t = this.state.newcomments;
     const ncomm = {
-      'markid': this.props.markid,
+      'id': this.props.id,
       'comm': this.state.tmpComm,
       'stars': this.state.tmpStars};
     this.props.addComm(e, ncomm);
@@ -35,7 +34,7 @@ export default class PlaceDetails extends Component {
     });
   }
   render() {
-    const arr = this.props.comms.filter((c) => c.markid === this.props.markid);
+    const arr = this.props.comms.filter((c) => c.id === this.props.id);
     const avgMark = arr.length>0? this.getAvg(arr) : 0;
     return (
       <div>
@@ -43,7 +42,7 @@ export default class PlaceDetails extends Component {
         <Rater total={5} rating={avgMark} interactive={false} />
         <br />
         {arr.length>0?arr.map((item) => (
-          <Comment key = {item.id} comm = {item.comm}
+          <Comment key={item.id} comm={item.comm}
             stars = {item.stars}></Comment>
         ), this) : <label>no comments</label>}
         <form>
@@ -71,7 +70,7 @@ export default class PlaceDetails extends Component {
   }
 }
 PlaceDetails.propTypes = {
-  markid: PropTypes.number,
+  id: PropTypes.number,
   addComm: PropTypes.func,
   comms: PropTypes.array,
   id: PropTypes.number,

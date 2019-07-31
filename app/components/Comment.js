@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 export default class Comment extends Component {
   render() {
     return (
-      <div>
+      <div key={this.props.key}>
         <label>{this.props.comm}</label>
         <Rater total={5} rating={this.props.stars} interactive={false}/>
         <br></br>
@@ -16,4 +16,5 @@ export default class Comment extends Component {
 Comment.propTypes = {
   comm: PropTypes.string,
   stars: PropTypes.number,
+  key: PropTypes.number,
 };

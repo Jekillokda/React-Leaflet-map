@@ -6,7 +6,7 @@ import SlidingPane from 'react-sliding-pane';
 import PlaceDetails from './PlaceDetails';
 import axios from 'axios';
 import Flexbox from 'flexbox-react';
-import axiosGet from '../Api/axios';
+import {axiosGet, axiosPost} from '../Api/axios';
 
 import '../css/styles.css';
 import 'react-sliding-pane/dist/react-sliding-pane.css';
@@ -22,6 +22,7 @@ class App extends PureComponent {
   }
   constructor(props) {
     super(props);
+    Modal.setAppElement(this.el);
     this.state = {
       markers: [],
       comments: [],
@@ -37,7 +38,7 @@ class App extends PureComponent {
   }
 
   loadMarkers(url) {
-    Modal.setAppElement(this.el);
+    
     console.log('getMarks from', url);
     axiosGet(url).then((res) => {
       this.setState({
@@ -56,15 +57,18 @@ class App extends PureComponent {
   }
 
   saveMarkers(url, marker) {
-    axios.post(url, marker).then((res) => {
+    axiosPost(url, marker).then((res) => {
       console.log(res);
     });
   }
 
   saveComments(url, comm) {
-    axios.post(url, comm).then((res) => {
+    console.log('save comm',url, comm);
+    axiosPost(url, comm).then((res) => {
       console.log(res);
-    });
+    }).catch(error => {
+    console.log(error.response)
+  });
   }
 
   getLatLng = (e) => {
@@ -112,19 +116,18 @@ class App extends PureComponent {
     });
   }
   addComm = (e, item) => {
+    e.preventDefault();
+    console.log('AddCommlItem', item);
     this.setState({
       comments: this.state.comments.concat(item),
     });
-    console.log('ITEM', item);
     const newComm = {
-      'markid': item.markid,
+      'id': item.id,
       'comm': item.comm,
       'stars': item.stars};
-    console.log('NEWITEM', newComm);
-    this.saveComments(COMMENTS_URL, item);
+    this.saveComments(COMMENTS_URL, newComm);
   }
   render() {
-    console.log('comms', this.state.comments);
     return (
       <div>
         <Flexbox flexDirection='column' minHeight='100vh'>
@@ -169,7 +172,7 @@ class App extends PureComponent {
             }}>
           <PlaceDetails
             comms={this.state.comments}
-            markid={this.state.paneMarkId}
+            id={this.state.paneMarkId}
             addComm={this.addComm}>
           </PlaceDetails>
           <br />
