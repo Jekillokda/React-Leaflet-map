@@ -1,12 +1,12 @@
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
-import {MapComponent} from './MapComponent';
+import MapComponent from './MapComponent';
 import Modal from 'react-modal';
 import SlidingPane from 'react-sliding-pane';
 import PlaceDetails from './PlaceDetails';
 import axios from 'axios';
-import {Flexbox} from 'flexbox-react';
-import {axiosGet} from '../Api/axios';
+import Flexbox from 'flexbox-react';
+import axiosGet from '../Api/axios';
 
 import '../css/styles.css';
 import 'react-sliding-pane/dist/react-sliding-pane.css';
@@ -67,25 +67,25 @@ class App extends PureComponent {
     });
   }
 
-  getLatLng(e) {
+  getLatLng = (e) => {
     this.setState({
       tmpLat: e.latlng.lat,
       tmpLng: e.latlng.lng});
   }
 
-  onMarkNameChange(e) {
+  onMarkNameChange = (e) => {
     this.setState({tmpName: e.target.value});
   }
 
-  onMarkLatChange(e) {
+  onMarkLatChange = (e) => {
     this.setState({tmpLat: e.target.value});
   }
 
-  onMarkLngChange(e) {
+  onMarkLngChange = (e) => {
     this.setState({tmpLng: e.target.value});
   }
 
-  AddMarker(e) {
+  AddMarker = (e) => {
     e.preventDefault();
     const {markers} = this.state;
     const newEl = {
@@ -103,7 +103,7 @@ class App extends PureComponent {
       nextId: this.state.nextId +1});
   }
 
-  openModal(e, item) {
+  openModal = (e, item) => {
     this.setState( {
       isPaneOpen: true,
       paneText: item.text +' ' + item.id,
@@ -111,7 +111,7 @@ class App extends PureComponent {
       paneMarkId: item.id,
     });
   }
-  addComm(e, item) {
+  addComm = (e, item) => {
     this.setState({
       comments: this.state.comments.concat(item),
     });

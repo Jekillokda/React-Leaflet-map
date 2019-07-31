@@ -19,7 +19,7 @@ export default class PlaceDetails extends Component {
   onRateChange(e) {
     this.setState({tmpStars: e.rating});
   }
-  AddComment(e) {
+  AddComment = (e) => {
     e.preventDefault();
     const t = this.state.newcomments;
     const ncomm = {

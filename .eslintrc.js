@@ -12,10 +12,15 @@ module.exports = {
     'Atomics': 'readonly',
     'SharedArrayBuffer': 'readonly',
   },
-  'parserOptions': {
-    'ecmaFeatures': {
-      'jsx': true,
-    },
+  "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "modules": true,
+            "experimentalObjectRestSpread": true
+        },
     'ecmaVersion': 2018,
     'sourceType': 'module',
   },
@@ -24,6 +29,7 @@ module.exports = {
   ],
   'rules': {
     'linebreak-style': [0,"windows"],
-    'require-jsdoc' : 0
+    'require-jsdoc' : 0,
+    'no-invalid-this' : 0
   },
 };
