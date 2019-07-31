@@ -10,7 +10,7 @@ export default class PlaceDetails extends Component {
       newcomments: [],
       tmpComm: '',
       tmpStars: 0,
-      nextID: this.props.comms.length,
+      nextID: this.props.comms.length+1,
     };
   }
   onCommChange(e) {
