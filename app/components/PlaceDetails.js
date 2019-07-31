@@ -10,6 +10,7 @@ export default class PlaceDetails extends Component {
       newcomments: [],
       tmpComm: '',
       tmpStars: 0,
+      nextID: this.props.comms.length,
     };
   }
   onCommChange(e) {
@@ -22,7 +23,8 @@ export default class PlaceDetails extends Component {
     e.preventDefault();
     const t = this.state.newcomments;
     const ncomm = {
-      'id': this.props.id,
+      'id': this.state.nextID,
+      'markid': this.props.id,
       'comm': this.state.tmpComm,
       'stars': this.state.tmpStars};
     this.props.addComm(e, ncomm);
@@ -31,10 +33,11 @@ export default class PlaceDetails extends Component {
       newcomments: t,
       tmpComm: '',
       tmpStars: 0,
+      nextID: this.state.nextID+1,
     });
   }
   render() {
-    const arr = this.props.comms.filter((c) => c.id === this.props.id);
+    const arr = this.props.comms.filter((c) => c.markid === this.props.id);
     const avgMark = arr.length>0? this.getAvg(arr) : 0;
     return (
       <div>
@@ -73,6 +76,6 @@ PlaceDetails.propTypes = {
   id: PropTypes.number,
   addComm: PropTypes.func,
   comms: PropTypes.array,
-  id: PropTypes.number,
+  markid: PropTypes.number,
   text: PropTypes.string,
 };

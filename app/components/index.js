@@ -4,7 +4,6 @@ import MapComponent from './MapComponent';
 import Modal from 'react-modal';
 import SlidingPane from 'react-sliding-pane';
 import PlaceDetails from './PlaceDetails';
-import axios from 'axios';
 import Flexbox from 'flexbox-react';
 import {axiosGet, axiosPost} from '../Api/axios';
 
@@ -38,7 +37,6 @@ class App extends PureComponent {
   }
 
   loadMarkers(url) {
-    
     console.log('getMarks from', url);
     axiosGet(url).then((res) => {
       this.setState({
@@ -63,12 +61,12 @@ class App extends PureComponent {
   }
 
   saveComments(url, comm) {
-    console.log('save comm',url, comm);
+    console.log('save comm', url, comm);
     axiosPost(url, comm).then((res) => {
       console.log(res);
-    }).catch(error => {
-    console.log(error.response)
-  });
+    }).catch((error) => {
+      console.log(error.response);
+    });
   }
 
   getLatLng = (e) => {
@@ -123,6 +121,7 @@ class App extends PureComponent {
     });
     const newComm = {
       'id': item.id,
+      'markid': item.markid,
       'comm': item.comm,
       'stars': item.stars};
     this.saveComments(COMMENTS_URL, newComm);

@@ -41,28 +41,37 @@
       "lat": 53.93568471743343,
       "lng": 27.533454895019535,
       "text": "aaaa"
+    },
+    {
+      "id": 7,
+      "lat": 53.869760229103676,
+      "lng": 27.496032714843754,
+      "text": "lalala"
     }
   ],
   "comments": [
     {
       "id": 1,
-      "comm": "firs comment 4*",
-      "stars": 4
+      "comm": "comm",
+      "stars": 3
     },
     {
       "id": 2,
-      "comm": "aaaaa",
+      "markid": 1,
+      "comm": "asdasdasd",
+      "stars": 1
+    },
+    {
+      "id": 3,
+      "markid": 1,
+      "comm": "sd sASdSAdS",
       "stars": 3
     },
     {
       "id": 4,
-      "comm": "nice",
-      "stars": 5
-    },
-    {
-      "id": 5,
-      "comm": "not bad",
-      "stars": 3
+      "markid": 5,
+      "comm": "1",
+      "stars": 1
     }
   ]
 }
