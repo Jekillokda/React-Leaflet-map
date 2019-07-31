@@ -42,6 +42,8 @@ class App extends PureComponent {
       this.setState({
         markers: res.data,
         nextId: res.data.length});
+    }).catch((error) => {
+      console.log(error.response);
     });
   }
 
@@ -51,12 +53,16 @@ class App extends PureComponent {
       this.setState({
         comments: res.data,
       });
+    }).catch((error) => {
+      console.log(error.response);
     });
   }
 
   saveMarkers(url, marker) {
     axiosPost(url, marker).then((res) => {
       console.log(res);
+    }).catch((error) => {
+      console.log(error.response);
     });
   }
 
