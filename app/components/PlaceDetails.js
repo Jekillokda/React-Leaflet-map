@@ -8,27 +8,28 @@ export default function PlaceDetails(props) {
   const [newcomments, addNewComment] = useState([]);
   const [tmpComm, editComm] = useState('');
   const [tmpStars, editStars] = useState(0);
-  const [nextID, changeNextId] = useState(props.comms.length+1);
   const getAvg = (arr) => {
     let sum = 0;
     for (let i=0; i<arr.length; i++) {
       sum+= arr[i].stars;
     }
-    sum/= arr.length;
-    return sum;
+    return sum/= arr.length;
   };
   const addComment = (e) => {
     e.preventDefault();
-    const ncomm = {
-      'id': nextID,
-      'markid': props.id,
-      'comm': tmpComm,
-      'stars': tmpStars};
-    props.addComm(e, ncomm);
-    addNewComment(newcomments.push(ncomm));
-    editComm('');
-    editStars(0);
-    changeNextId(nextID+1);
+    if (tmpComm.length>0) {
+      const ncomm = {
+        'markid': props.id,
+        'comm': tmpComm,
+        'stars': tmpStars};
+      props.addComm(e, ncomm);
+      addNewComment(newcomments.concat(ncomm));
+      editComm('');
+      editStars(0);
+    }
+  };
+  const delComment = (e, item) =>{
+    props.delComm(e, item);
   };
   const arr = props.comms.filter((c) => c.markid === props.id);
   return (
@@ -40,13 +41,13 @@ export default function PlaceDetails(props) {
       <br/>
       {arr.length>0?arr.map((item) => (
         <Comment key={item.id} comm={item.comm}
-          stars = {item.stars}>
+          stars = {item.stars}
+          delComm = {(e) => delComment(e, item)}>
         </Comment>
       )) : <label>no comments</label>}
       <form>
         <label>Комментарий:
-          <input type='text' name='name'
-            value = {tmpComm}
+          <input type='text' name='name' value = {tmpComm}
             onChange = {(e) =>editComm(e.target.value)}/>
         </label>
         <label>Оценка:
@@ -61,6 +62,7 @@ export default function PlaceDetails(props) {
 PlaceDetails.propTypes = {
   id: PropTypes.number,
   addComm: PropTypes.func,
+  delComm: PropTypes.func,
   comms: PropTypes.array,
   markid: PropTypes.number,
   text: PropTypes.string,

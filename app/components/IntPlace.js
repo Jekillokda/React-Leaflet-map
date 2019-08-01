@@ -8,9 +8,7 @@ export default function IntPlace(props) {
       <Marker
         position={[props.lat, props.lng]}
         onClick = {(e) => props.openModal(e, props.id)}>
-        <Tooltip>
-          {props.text}
-        </Tooltip>
+        <Tooltip> {props.text} </Tooltip>
       </Marker>
     </div>
   );

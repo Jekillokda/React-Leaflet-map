@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 import SlidingPane from 'react-sliding-pane';
 import PlaceDetails from './PlaceDetails';
 import Flexbox from 'flexbox-react';
-import {axiosGet, axiosPost} from '../Api/axios';
+import {axiosGet, axiosPost, axiosDelete} from '../Api/axios';
 import ReactNotification from 'react-notifications-component';
 
 import '../css/styles.css';
@@ -33,7 +33,8 @@ class App extends PureComponent {
       tmpName: '',
       tmpLat: 0,
       tmpLng: 0,
-      nextId: 0,
+      nextMarkId: 0,
+      nextCommId: 0,
     };
     this.addNotification = this.addNotification.bind(this);
     this.notificationDOMRef = React.createRef();
@@ -44,7 +45,7 @@ class App extends PureComponent {
     axiosGet(url).then((res) => {
       this.setState({
         markers: res.data,
-        nextId: res.data.length});
+        nextMarkId: res.data.length});
     }).catch((error) => {
       console.log(error.response);
       this.addNotification('danger', 'ERROR', error.response);
@@ -56,6 +57,7 @@ class App extends PureComponent {
     axiosGet(url).then((res) => {
       this.setState({
         comments: res.data,
+        nextCommId: res.data.length+1,
       });
     }).catch((error) => {
       console.log(error.response);
@@ -103,7 +105,7 @@ class App extends PureComponent {
     e.preventDefault();
     const {markers} = this.state;
     const newEl = {
-      'id': this.state.nextId,
+      'id': this.state.nextMarkId,
       'lat': this.state.tmpLat,
       'lng': this.state.tmpLng,
       'text': this.state.tmpName};
@@ -114,7 +116,7 @@ class App extends PureComponent {
       tmpLat: 0,
       tmpLng: 0,
       tmpName: '',
-      nextId: this.state.nextId +1});
+      nextMarkId: this.state.nextMarkId +1});
     this.addNotification(
         'success', 'Marker added', 'id'+newEl.id+' '+newEl.text
     );
@@ -146,13 +148,26 @@ class App extends PureComponent {
     this.setState({
       comments: this.state.comments.concat(item),
     });
+    console.log('commID', this.state.nextCommId);
     const newComm = {
-      'id': item.id,
+      'id': this.state.nextCommId,
       'markid': item.markid,
       'comm': item.comm,
       'stars': item.stars};
     this.saveComments(COMMENTS_URL, newComm);
     this.addNotification('success', 'Comment added', item.comm);
+    this.setState({
+      nextCommId: this.state.nextCommId+1,
+    });
+  }
+  delComm = (e, item) =>{
+    axiosDelete(COMMENTS_URL, item.id).then((res) => {
+      console.log(res);
+    }).catch((error) => {
+      console.log(error.response);
+      this.addNotification('danger', 'ERROR', error.response);
+    });
+    this.loadComments(COMMENTS_URL);
   }
   render() {
     return (
@@ -202,7 +217,8 @@ class App extends PureComponent {
           <PlaceDetails
             comms={this.state.comments}
             id={this.state.paneMarkId}
-            addComm={this.addComm}>
+            addComm={this.addComm}
+            delComm={this.delComm}>
           </PlaceDetails>
           <br />
         </SlidingPane>

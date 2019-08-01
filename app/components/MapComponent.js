@@ -10,8 +10,7 @@ export default function MapComponent(props) {
     <div>
       <Map center={START_POSITION} zoom={START_ZOOM}
         onClick={ (e) => props.getLatLng(e)}>
-        <TileLayer
-          url={TILE_URL}/>
+        <TileLayer url={TILE_URL}/>
         {props.list?props.list.map((item) => (
           <IntPlace key={item.id} id={item.id} lat={item.lat}
             lng={item.lng} text={item.text}
