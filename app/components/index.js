@@ -19,7 +19,6 @@ class App extends PureComponent {
     Modal.setAppElement('body');
     this.loadMarkers(MARKERS_URL);
     this.loadComments(COMMENTS_URL);
-    console.log('comms', this.state.comments);
   }
   constructor(props) {
     super(props);
@@ -144,7 +143,6 @@ class App extends PureComponent {
   }
   addComm = (e, item) => {
     e.preventDefault();
-    console.log('AddCommlItem', item);
     this.setState({
       comments: this.state.comments.concat(item),
     });
