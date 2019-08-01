@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 export default function Comment(props) {
   return (
     <div key={props.key}>
-      <label>{props.comm}</label>
+      <label>
+        {props.comm}
+      </label>
       <Rater total={5} rating={props.stars} interactive={false}/>
       <br></br>
     </div>

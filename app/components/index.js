@@ -162,7 +162,8 @@ class App extends PureComponent {
           <Flexbox flexGrow={1}>
             <MapComponent list={this.state.markers}
               getLatLng={this.getLatLng}
-              openModal={this.openModal}></MapComponent>
+              openModal={this.openModal}>
+            </MapComponent>
           </Flexbox>
           <Flexbox flexGrow={1}>
             <form>

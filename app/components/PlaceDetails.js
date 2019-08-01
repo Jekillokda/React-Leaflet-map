@@ -17,7 +17,7 @@ export default function PlaceDetails(props) {
     sum/= arr.length;
     return sum;
   };
-  const AddComment = (e) => {
+  const addComment = (e) => {
     e.preventDefault();
     const ncomm = {
       'id': nextID,
@@ -40,7 +40,8 @@ export default function PlaceDetails(props) {
       <br/>
       {arr.length>0?arr.map((item) => (
         <Comment key={item.id} comm={item.comm}
-          stars = {item.stars}></Comment>
+          stars = {item.stars}>
+        </Comment>
       )) : <label>no comments</label>}
       <form>
         <label>Комментарий:
@@ -52,7 +53,7 @@ export default function PlaceDetails(props) {
           <Rater total={5} rating={tmpStars}
             onRate = {(e) =>editStars(e.rating)}/>
         </label>
-        <input type='submit' value='Сохранить' onClick = {AddComment}/>
+        <input type='submit' value='Сохранить' onClick={addComment}/>
       </form>
     </div>
   );
