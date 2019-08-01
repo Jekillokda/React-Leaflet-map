@@ -123,7 +123,7 @@ class App extends PureComponent {
   openModal = (e, item) => {
     this.setState( {
       isPaneOpen: true,
-      paneText: item.text +' ' + item.id,
+      paneText: 'id'+ item.id +' ' + item.text,
       paneSubtitle: e.latlng.lat + ' ' + e.latlng.lng,
       paneMarkId: item.id,
     });
@@ -189,7 +189,7 @@ class App extends PureComponent {
           </Flexbox>
         </Flexbox>
         <SlidingPane
-          isOpen={ this.state.isPaneOpen }
+          isOpen={this.state.isPaneOpen}
           title={this.state.paneText}
           subtitle={this.state.paneSubtitle}
           width='600px'

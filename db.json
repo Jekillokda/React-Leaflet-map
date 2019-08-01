@@ -131,6 +131,12 @@
       "lat": 53.891004934409466,
       "lng": 27.566413879394535,
       "text": "asdasdasd"
+    },
+    {
+      "id": 22,
+      "lat": 53.874010033764904,
+      "lng": 27.54684448242188,
+      "text": "222"
     }
   ],
   "comments": [
@@ -221,6 +227,28 @@
       "id": 15,
       "comm": "qqweqw",
       "stars": 2
+    },
+    {
+      "id": 16,
+      "comm": "111",
+      "stars": 1
+    },
+    {
+      "id": 17,
+      "comm": "lalala",
+      "stars": 4
+    },
+    {
+      "id": 18,
+      "markid": 19,
+      "comm": "1112233",
+      "stars": 2
+    },
+    {
+      "id": 19,
+      "markid": 11,
+      "comm": "asdasdasd",
+      "stars": 3
     }
   ]
 }
