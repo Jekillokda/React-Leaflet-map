@@ -1,25 +1,17 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import {Marker, Tooltip} from 'react-leaflet';
 import PropTypes from 'prop-types';
 
-export default class IntPlace extends PureComponent {
-  constructor(props) {
-    super(props);
-  }
-  onMarkerClicked(e) {
-    this.props.openModal(e);
-  }
-  render() {
-    return (
-      <div>
-        <Marker
-          position={[this.props.lat, this.props.lng]}
-          onClick = {(e) => this.onMarkerClicked(e, this.props.id)}>
-          <Tooltip >{this.props.text}</Tooltip>
-        </Marker>
-      </div>
-    );
-  }
+export default function IntPlace(props) {
+  return (
+    <div>
+      <Marker
+        position={[props.lat, props.lng]}
+        onClick = {(e) => props.openModal(e, props.id)}>
+        <Tooltip >{props.text}</Tooltip>
+      </Marker>
+    </div>
+  );
 }
 IntPlace.propTypes = {
   openModal: PropTypes.func,

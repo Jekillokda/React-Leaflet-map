@@ -1,17 +1,15 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Rater from 'react-rater';
 import PropTypes from 'prop-types';
 
-export default class Comment extends Component {
-  render() {
-    return (
-      <div key={this.props.key}>
-        <label>{this.props.comm}</label>
-        <Rater total={5} rating={this.props.stars} interactive={false}/>
-        <br></br>
-      </div>
-    );
-  }
+export default function Comment(props) {
+  return (
+    <div key={props.key}>
+      <label>{props.comm}</label>
+      <Rater total={5} rating={props.stars} interactive={false}/>
+      <br></br>
+    </div>
+  );
 }
 Comment.propTypes = {
   comm: PropTypes.string,

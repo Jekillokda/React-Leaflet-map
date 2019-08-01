@@ -6,10 +6,10 @@ import SlidingPane from 'react-sliding-pane';
 import PlaceDetails from './PlaceDetails';
 import Flexbox from 'flexbox-react';
 import {axiosGet, axiosPost} from '../Api/axios';
+import ReactNotification from 'react-notifications-component';
 
 import '../css/styles.css';
 import 'react-sliding-pane/dist/react-sliding-pane.css';
-import ReactNotification from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 
 import {MARKERS_URL, COMMENTS_URL} from '../constants';
