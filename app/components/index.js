@@ -9,6 +9,8 @@ import {axiosGet, axiosPost} from '../Api/axios';
 
 import '../css/styles.css';
 import 'react-sliding-pane/dist/react-sliding-pane.css';
+import ReactNotification from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
 
 import {MARKERS_URL, COMMENTS_URL} from '../constants';
 
@@ -34,6 +36,8 @@ class App extends PureComponent {
       tmpLng: 0,
       nextId: 0,
     };
+    this.addNotification = this.addNotification.bind(this);
+    this.notificationDOMRef = React.createRef();
   }
 
   loadMarkers(url) {
@@ -44,6 +48,7 @@ class App extends PureComponent {
         nextId: res.data.length});
     }).catch((error) => {
       console.log(error.response);
+      this.addNotification('danger', 'ERROR', error.response);
     });
   }
 
@@ -55,6 +60,7 @@ class App extends PureComponent {
       });
     }).catch((error) => {
       console.log(error.response);
+      this.addNotification('danger', 'ERROR', error.response);
     });
   }
 
@@ -63,15 +69,16 @@ class App extends PureComponent {
       console.log(res);
     }).catch((error) => {
       console.log(error.response);
+      this.addNotification('danger', 'ERROR', error.response);
     });
   }
 
   saveComments(url, comm) {
-    console.log('save comm', url, comm);
     axiosPost(url, comm).then((res) => {
       console.log(res);
     }).catch((error) => {
       console.log(error.response);
+      this.addNotification('danger', 'ERROR', error.response);
     });
   }
 
@@ -109,6 +116,9 @@ class App extends PureComponent {
       tmpLng: 0,
       tmpName: '',
       nextId: this.state.nextId +1});
+    this.addNotification(
+        'success', 'Marker added', 'id'+newEl.id+' '+newEl.text
+    );
   }
 
   openModal = (e, item) => {
@@ -117,6 +127,19 @@ class App extends PureComponent {
       paneText: item.text +' ' + item.id,
       paneSubtitle: e.latlng.lat + ' ' + e.latlng.lng,
       paneMarkId: item.id,
+    });
+  }
+  addNotification(type, title, text) {
+    this.notificationDOMRef.current.addNotification({
+      title: title,
+      message: text,
+      type: type,
+      insert: 'top',
+      container: 'top-left',
+      animationIn: ['animated', 'fadeIn'],
+      animationOut: ['animated', 'fadeOut'],
+      dismiss: {duration: 2000},
+      dismissable: {click: true},
     });
   }
   addComm = (e, item) => {
@@ -131,10 +154,12 @@ class App extends PureComponent {
       'comm': item.comm,
       'stars': item.stars};
     this.saveComments(COMMENTS_URL, newComm);
+    this.addNotification('success', 'Comment added', item.comm);
   }
   render() {
     return (
       <div>
+        <ReactNotification ref={this.notificationDOMRef} />
         <Flexbox flexDirection='column' minHeight='100vh'>
           <Flexbox flexGrow={1}>
             <MapComponent list={this.state.markers}
