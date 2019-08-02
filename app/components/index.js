@@ -20,6 +20,7 @@ class App extends PureComponent {
     this.loadMarkers(MARKERS_URL);
     this.loadComments(COMMENTS_URL);
   }
+
   constructor(props) {
     super(props);
     Modal.setAppElement(this.el);
@@ -34,7 +35,6 @@ class App extends PureComponent {
       tmpLat: 0,
       tmpLng: 0,
       nextMarkId: 0,
-      nextCommId: 0,
     };
     this.addNotification = this.addNotification.bind(this);
     this.notificationDOMRef = React.createRef();
@@ -77,6 +77,17 @@ class App extends PureComponent {
   saveComments(url, comm) {
     axiosPost(url, comm).then((res) => {
       console.log(res);
+      this.loadComments(COMMENTS_URL);
+    }).catch((error) => {
+      console.log(error.response);
+      this.addNotification('danger', 'ERROR', error.response);
+    });
+  }
+
+  deleteComment = (e, id) =>{
+    axiosDelete(COMMENTS_URL, id).then((res) => {
+      console.log(res);
+      this.loadComments(COMMENTS_URL);
     }).catch((error) => {
       console.log(error.response);
       this.addNotification('danger', 'ERROR', error.response);
@@ -85,8 +96,7 @@ class App extends PureComponent {
 
   getLatLng = (e) => {
     this.setState({
-      tmpLat: e.latlng.lat,
-      tmpLng: e.latlng.lng});
+      tmpLat: e.latlng.lat, tmpLng: e.latlng.lng});
   }
 
   onMarkNameChange = (e) => {
@@ -125,11 +135,12 @@ class App extends PureComponent {
   openModal = (e, item) => {
     this.setState( {
       isPaneOpen: true,
-      paneText: 'id'+ item.id +' ' + item.text,
-      paneSubtitle: e.latlng.lat + ' ' + e.latlng.lng,
+      paneText: 'id'+ item.id +' '+ item.text,
+      paneSubtitle: e.latlng.lat +' '+ e.latlng.lng,
       paneMarkId: item.id,
     });
   }
+
   addNotification(type, title, text) {
     this.notificationDOMRef.current.addNotification({
       title: title,
@@ -143,6 +154,7 @@ class App extends PureComponent {
       dismissable: {click: true},
     });
   }
+
   addComm = (e, item) => {
     e.preventDefault();
     this.setState({
@@ -150,7 +162,6 @@ class App extends PureComponent {
     });
     console.log('commID', this.state.nextCommId);
     const newComm = {
-      'id': this.state.nextCommId,
       'markid': item.markid,
       'comm': item.comm,
       'stars': item.stars};
@@ -160,24 +171,15 @@ class App extends PureComponent {
       nextCommId: this.state.nextCommId+1,
     });
   }
-  delComm = (e, item) =>{
-    axiosDelete(COMMENTS_URL, item.id).then((res) => {
-      console.log(res);
-    }).catch((error) => {
-      console.log(error.response);
-      this.addNotification('danger', 'ERROR', error.response);
-    });
-    this.loadComments(COMMENTS_URL);
-  }
+
   render() {
     return (
       <div>
-        <ReactNotification ref={this.notificationDOMRef} />
+        <ReactNotification ref={this.notificationDOMRef}/>
         <Flexbox flexDirection='column' minHeight='100vh'>
           <Flexbox flexGrow={1}>
             <MapComponent list={this.state.markers}
-              getLatLng={this.getLatLng}
-              openModal={this.openModal}>
+              getLatLng={this.getLatLng} openModal={this.openModal}>
             </MapComponent>
           </Flexbox>
           <Flexbox flexGrow={1}>
@@ -210,21 +212,19 @@ class App extends PureComponent {
           subtitle={this.state.paneSubtitle}
           width='600px'
           from='right'
-          onRequestClose={
-            () => {
-              this.setState({isPaneOpen: false});
-            }}>
+          onRequestClose={ () => {
+            this.setState({isPaneOpen: false});
+          }}>
           <PlaceDetails
             comms={this.state.comments}
             id={this.state.paneMarkId}
             addComm={this.addComm}
-            delComm={this.delComm}>
+            delComm={this.deleteComment}>
           </PlaceDetails>
-          <br />
+          <br/>
         </SlidingPane>
       </div>
     );
   }
 }
-const rootElement = document.getElementById('root');
-ReactDOM.render(<App />, rootElement);
+ReactDOM.render(<App />, document.getElementById('root'));

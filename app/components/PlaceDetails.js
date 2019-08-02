@@ -8,6 +8,7 @@ export default function PlaceDetails(props) {
   const [newcomments, addNewComment] = useState([]);
   const [tmpComm, editComm] = useState('');
   const [tmpStars, editStars] = useState(0);
+  const [comms, updateComms] = useState([]);
   const getAvg = (arr) => {
     let sum = 0;
     for (let i=0; i<arr.length; i++) {
@@ -31,23 +32,24 @@ export default function PlaceDetails(props) {
   const delComment = (e, item) =>{
     props.delComm(e, item);
   };
-  const arr = props.comms.filter((c) => c.markid === props.id);
+  if (comms!==props.comms) {
+    updateComms(props.comms);
+  }
+  const arr = comms.filter((c) => c.markid === props.id);
   return (
     <div>
       <label>Average Mark: </label>
       <Rater total={5}
-        rating={arr.length>0? getAvg(arr) : 0}
-        interactive={false}/>
+        rating={arr.length>0? getAvg(arr) : 0} interactive={false}/>
       <br/>
-      {arr.length>0?arr.map((item) => (
-        <Comment key={item.id} comm={item.comm}
+      {arr.length>0?arr.map((item, idx) => (
+        <Comment key={idx} comm={item.comm}
           stars = {item.stars}
-          delComm = {(e) => delComment(e, item)}>
-        </Comment>
+          delComm = {(e) => delComment(e, item.id)}/>
       )) : <label>no comments</label>}
       <form>
         <label>Комментарий:
-          <input type='text' name='name' value = {tmpComm}
+          <input type='text' name='name' value={tmpComm}
             onChange = {(e) =>editComm(e.target.value)}/>
         </label>
         <label>Оценка:

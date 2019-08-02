@@ -14,8 +14,7 @@ export default function MapComponent(props) {
         {props.list?props.list.map((item) => (
           <IntPlace key={item.id} id={item.id} lat={item.lat}
             lng={item.lng} text={item.text}
-            openModal={(e) => props.openModal(e, item)}>
-          </IntPlace>
+            openModal={(e) => props.openModal(e, item)}/>
         )) : null}
       </Map>
     </div>
