@@ -94,6 +94,26 @@ class App extends PureComponent {
     });
   }
 
+  deleteMark = (e) =>{
+    const commArr = this.state.comments.
+        filter(((c) => c.markid === this.state.paneMarkId));
+    console.log('comments', commArr);
+    commArr.forEach((comm) => {
+      this.deleteComment(e, comm.id);
+    });
+    console.log('deleteMark', this.state.paneMarkId);
+    axiosDelete(MARKERS_URL, this.state.paneMarkId).then((res) => {
+      console.log(res);
+      this.loadMarkers(MARKERS_URL);
+      this.setState({
+        isPaneOpen: false,
+      });
+    }).catch((error) => {
+      console.log(error.response);
+      this.addNotification('danger', 'ERROR', error.response);
+    });
+  }
+
   getLatLng = (e) => {
     this.setState({
       tmpLat: e.latlng.lat, tmpLng: e.latlng.lng});
@@ -215,12 +235,16 @@ class App extends PureComponent {
           onRequestClose={ () => {
             this.setState({isPaneOpen: false});
           }}>
-          <PlaceDetails
-            comms={this.state.comments}
-            id={this.state.paneMarkId}
-            addComm={this.addComm}
-            delComm={this.deleteComment}>
-          </PlaceDetails>
+          <div>
+            <input type='submit' value='deleteMarker'
+              onClick={this.deleteMark}/>
+            <PlaceDetails
+              comms={this.state.comments}
+              id={this.state.paneMarkId}
+              addComm={this.addComm}
+              delComm={this.deleteComment}>
+            </PlaceDetails>
+          </div>
           <br/>
         </SlidingPane>
       </div>
