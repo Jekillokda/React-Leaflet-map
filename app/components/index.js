@@ -34,7 +34,6 @@ class App extends PureComponent {
       tmpName: '',
       tmpLat: 0,
       tmpLng: 0,
-      nextMarkId: 0,
     };
     this.addNotification = this.addNotification.bind(this);
     this.notificationDOMRef = React.createRef();
@@ -44,8 +43,7 @@ class App extends PureComponent {
     console.log('getMarks from', url);
     axiosGet(url).then((res) => {
       this.setState({
-        markers: res.data,
-        nextMarkId: res.data.length});
+        markers: res.data});
     }).catch((error) => {
       console.log(error.response);
       this.addNotification('danger', 'ERROR', error.response);
@@ -57,7 +55,6 @@ class App extends PureComponent {
     axiosGet(url).then((res) => {
       this.setState({
         comments: res.data,
-        nextCommId: res.data.length+1,
       });
     }).catch((error) => {
       console.log(error.response);
@@ -68,6 +65,7 @@ class App extends PureComponent {
   saveMarkers(url, marker) {
     axiosPost(url, marker).then((res) => {
       console.log(res);
+      this.loadMarkers(url);
     }).catch((error) => {
       console.log(error.response);
       this.addNotification('danger', 'ERROR', error.response);
@@ -135,7 +133,6 @@ class App extends PureComponent {
     e.preventDefault();
     const {markers} = this.state;
     const newEl = {
-      'id': this.state.nextMarkId,
       'lat': this.state.tmpLat,
       'lng': this.state.tmpLng,
       'text': this.state.tmpName};
@@ -145,8 +142,7 @@ class App extends PureComponent {
       markers: markers,
       tmpLat: 0,
       tmpLng: 0,
-      tmpName: '',
-      nextMarkId: this.state.nextMarkId +1});
+      tmpName: ''});
     this.addNotification(
         'success', 'Marker added', 'id'+newEl.id+' '+newEl.text
     );
