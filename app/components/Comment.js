@@ -7,7 +7,7 @@ export default function Comment(props) {
     <div key={props.key}>
       <label>{props.comm}</label>
       <Rater total={5} rating={props.stars} interactive={false}/>
-      <input type = 'submit' value = 'delete' onClick = {props.delComm}></input>
+      <input type='submit' value='delete' onClick={props.delComm}></input>
       <br/>
     </div>
   );

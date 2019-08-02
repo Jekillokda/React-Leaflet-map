@@ -38,13 +38,13 @@ export default function PlaceDetails(props) {
   const arr = comms.filter((c) => c.markid === props.id);
   return (
     <div>
-      <label>Average Mark: </label>
+      <label>Average Mark:</label>
       <Rater total={5}
         rating={arr.length>0? getAvg(arr) : 0} interactive={false}/>
       <br/>
       {arr.length>0?arr.map((item, idx) => (
         <Comment key={idx} comm={item.comm}
-          stars = {item.stars}
+          stars={item.stars}
           delComm = {(e) => delComment(e, item.id)}/>
       )) : <label>no comments</label>}
       <form>

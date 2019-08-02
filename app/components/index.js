@@ -33,8 +33,7 @@ class App extends PureComponent {
       paneMarkId: 0,
       tmpName: '',
       tmpLat: 0,
-      tmpLng: 0,
-    };
+      tmpLng: 0};
     this.addNotification = this.addNotification.bind(this);
     this.notificationDOMRef = React.createRef();
   }
@@ -53,9 +52,7 @@ class App extends PureComponent {
   loadComments(url) {
     console.log('getComments from', url);
     axiosGet(url).then((res) => {
-      this.setState({
-        comments: res.data,
-      });
+      this.setState({comments: res.data});
     }).catch((error) => {
       console.log(error.response);
       this.addNotification('danger', 'ERROR', error.response);
@@ -86,6 +83,7 @@ class App extends PureComponent {
     axiosDelete(COMMENTS_URL, id).then((res) => {
       console.log(res);
       this.loadComments(COMMENTS_URL);
+      this.addNotification('success', 'Comment deleted', ' ');
     }).catch((error) => {
       console.log(error.response);
       this.addNotification('danger', 'ERROR', error.response);
@@ -103,9 +101,8 @@ class App extends PureComponent {
     axiosDelete(MARKERS_URL, this.state.paneMarkId).then((res) => {
       console.log(res);
       this.loadMarkers(MARKERS_URL);
-      this.setState({
-        isPaneOpen: false,
-      });
+      this.setState({isPaneOpen: false});
+      this.addNotification('success', 'Marker deleted', ' ');
     }).catch((error) => {
       console.log(error.response);
       this.addNotification('danger', 'ERROR', error.response);
@@ -143,9 +140,7 @@ class App extends PureComponent {
       tmpLat: 0,
       tmpLng: 0,
       tmpName: ''});
-    this.addNotification(
-        'success', 'Marker added', 'id'+newEl.id+' '+newEl.text
-    );
+    this.addNotification('success', 'Marker added', newEl.text);
   }
 
   openModal = (e, item) => {
@@ -153,8 +148,7 @@ class App extends PureComponent {
       isPaneOpen: true,
       paneText: 'id'+ item.id +' '+ item.text,
       paneSubtitle: e.latlng.lat +' '+ e.latlng.lng,
-      paneMarkId: item.id,
-    });
+      paneMarkId: item.id});
   }
 
   addNotification(type, title, text) {
@@ -167,8 +161,7 @@ class App extends PureComponent {
       animationIn: ['animated', 'fadeIn'],
       animationOut: ['animated', 'fadeOut'],
       dismiss: {duration: 2000},
-      dismissable: {click: true},
-    });
+      dismissable: {click: true}});
   }
 
   addComm = (e, item) => {
@@ -183,9 +176,7 @@ class App extends PureComponent {
       'stars': item.stars};
     this.saveComments(COMMENTS_URL, newComm);
     this.addNotification('success', 'Comment added', item.comm);
-    this.setState({
-      nextCommId: this.state.nextCommId+1,
-    });
+    this.setState({nextCommId: this.state.nextCommId+1});
   }
 
   render() {
