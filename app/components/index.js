@@ -5,7 +5,8 @@ import Modal from 'react-modal';
 import SlidingPane from 'react-sliding-pane';
 import PlaceDetails from './PlaceDetails';
 import Flexbox from 'flexbox-react';
-import {axiosGet, axiosPost, axiosDelete} from '../Api/axios';
+import {loadMarkers, saveMarker, deleteMarker} from '../Api/axios/Markers';
+import {loadComments, saveComment, deleteComment} from '../Api/axios/Comments';
 import ReactNotification from 'react-notifications-component';
 
 import '../css/styles.css';
@@ -17,8 +18,8 @@ import {MARKERS_URL, COMMENTS_URL} from '../constants';
 class App extends PureComponent {
   componentDidMount() {
     Modal.setAppElement('body');
-    this.loadMarkers(MARKERS_URL);
-    this.loadComments(COMMENTS_URL);
+    this.loadM(MARKERS_URL);
+    this.loadComms(COMMENTS_URL);
   }
 
   constructor(props) {
@@ -37,52 +38,52 @@ class App extends PureComponent {
     this.addNotification = this.addNotification.bind(this);
     this.notificationDOMRef = React.createRef();
   }
-
-  loadMarkers(url) {
-    console.log('getMarks from', url);
-    axiosGet(url).then((res) => {
+  loadM() {
+    console.log('getMarkers');
+    loadMarkers().then((markers) => {
+      console.log('MARKERS', markers);
       this.setState({
-        markers: res.data});
+        markers: markers});
     }).catch((error) => {
       console.log(error.response);
       this.addNotification('danger', 'ERROR', error.response);
     });
   }
 
-  loadComments(url) {
-    console.log('getComments from', url);
-    axiosGet(url).then((res) => {
-      this.setState({comments: res.data});
+  loadComms() {
+    console.log('getComments');
+    loadComments().then((comments) => {
+      this.setState({comments: comments});
     }).catch((error) => {
       console.log(error.response);
       this.addNotification('danger', 'ERROR', error.response);
     });
   }
 
-  saveMarkers(url, marker) {
-    axiosPost(url, marker).then((res) => {
+  saveM(marker) {
+    saveMarker(marker).then((res) => {
       console.log(res);
-      this.loadMarkers(url);
+      this.loadM();
     }).catch((error) => {
       console.log(error.response);
       this.addNotification('danger', 'ERROR', error.response);
     });
   }
 
-  saveComments(url, comm) {
-    axiosPost(url, comm).then((res) => {
+  saveComm(comm) {
+    saveComment(comm).then((res) => {
       console.log(res);
-      this.loadComments(COMMENTS_URL);
+      this.loadComms();
     }).catch((error) => {
       console.log(error.response);
       this.addNotification('danger', 'ERROR', error.response);
     });
   }
 
-  deleteComment = (e, id) =>{
-    axiosDelete(COMMENTS_URL, id).then((res) => {
+  deleteComm = (e, id) =>{
+    deleteComment(id).then((res) => {
       console.log(res);
-      this.loadComments(COMMENTS_URL);
+      this.loadComms();
       this.addNotification('success', 'Comment deleted', ' ');
     }).catch((error) => {
       console.log(error.response);
@@ -90,17 +91,18 @@ class App extends PureComponent {
     });
   }
 
-  deleteMark = (e) =>{
+  deleteM = (e) =>{
     const commArr = this.state.comments.
         filter(((c) => c.markid === this.state.paneMarkId));
     console.log('comments', commArr);
     commArr.forEach((comm) => {
-      this.deleteComment(e, comm.id);
+      console.log('trDel', comm);
+      this.deleteComm(e, comm.id);
     });
     console.log('deleteMark', this.state.paneMarkId);
-    axiosDelete(MARKERS_URL, this.state.paneMarkId).then((res) => {
+    deleteMarker(this.state.paneMarkId).then((res) => {
       console.log(res);
-      this.loadMarkers(MARKERS_URL);
+      this.loadM();
       this.setState({isPaneOpen: false});
       this.addNotification('success', 'Marker deleted', ' ');
     }).catch((error) => {
@@ -134,7 +136,7 @@ class App extends PureComponent {
       'lng': this.state.tmpLng,
       'text': this.state.tmpName};
     markers.push(newEl);
-    this.saveMarkers(MARKERS_URL, newEl);
+    this.saveM(newEl);
     this.setState({
       markers: markers,
       tmpLat: 0,
@@ -174,7 +176,7 @@ class App extends PureComponent {
       'markid': item.markid,
       'comm': item.comm,
       'stars': item.stars};
-    this.saveComments(COMMENTS_URL, newComm);
+    this.saveComm(newComm);
     this.addNotification('success', 'Comment added', item.comm);
     this.setState({nextCommId: this.state.nextCommId+1});
   }
@@ -224,12 +226,12 @@ class App extends PureComponent {
           }}>
           <div>
             <input type='submit' value='deleteMarker'
-              onClick={this.deleteMark}/>
+              onClick={this.deleteM}/>
             <PlaceDetails
               comms={this.state.comments}
               id={this.state.paneMarkId}
               addComm={this.addComm}
-              delComm={this.deleteComment}>
+              delComm={this.deleteComm}>
             </PlaceDetails>
           </div>
           <br/>

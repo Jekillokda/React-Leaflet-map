@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import Rater from 'react-rater';
-import 'react-rater/lib/react-rater.css';
 import Comment from './Comment';
 import PropTypes from 'prop-types';
+
+import 'react-rater/lib/react-rater.css';
 
 export default function PlaceDetails(props) {
   const [newcomments, addNewComment] = useState([]);
