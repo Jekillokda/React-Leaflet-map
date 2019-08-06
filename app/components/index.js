@@ -70,8 +70,8 @@ class App extends PureComponent {
     });
   }
 
-  saveComm(comm) {
-    saveComment(comm).then((res) => {
+  saveComm(comment) {
+    saveComment(comment).then((res) => {
       console.log(res);
       this.loadComms();
     }).catch((error) => {
@@ -171,14 +171,12 @@ class App extends PureComponent {
     this.setState({
       comments: this.state.comments.concat(item),
     });
-    console.log('commID', this.state.nextCommId);
     const newComm = {
       'markid': item.markid,
       'comm': item.comm,
       'stars': item.stars};
     this.saveComm(newComm);
     this.addNotification('success', 'Comment added', item.comm);
-    this.setState({nextCommId: this.state.nextCommId+1});
   }
 
   render() {
