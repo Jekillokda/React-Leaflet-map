@@ -29,6 +29,8 @@ module.exports = {
   'rules': {
     'linebreak-style': [0,"windows"],
     'require-jsdoc' : 0,
-    'no-invalid-this' : 0
+    'no-invalid-this' : 0,
+    'no-undef' : 0,
+    'new-cap' : 0,
   },
 };

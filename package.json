@@ -16,13 +16,17 @@
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "axios": "^0.19.0",
     "flexbox-react": "^4.4.0",
+    "immutable": "^4.0.0-rc.12",
     "leaflet": "^1.5.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-leaflet": "^2.4.0",
     "react-notifications-component": "^1.1.1",
     "react-rater": "^5.1.0",
-    "react-sliding-pane": "^3.1.0"
+    "react-redux": "^7.1.0",
+    "react-sliding-pane": "^3.1.0",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
